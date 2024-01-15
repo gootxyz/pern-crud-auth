@@ -1,5 +1,10 @@
-import { Router } from "express";
-import { signin, signout, signup, profile } from "../controllers/auth.controller.js";
+import Router from "express-promise-router";
+import {
+  signin,
+  signout,
+  signup,
+  profile,
+} from "../controllers/auth.controller.js";
 
 const router = Router();
 
