@@ -1,4 +1,4 @@
-import { Router } from "express";
+import Router from "express-promise-router";
 import {
   getAllTasks,
   getTask,
@@ -15,8 +15,8 @@ router.get("/tasks/:id", getTask);
 
 router.post("/tasks", createTask);
 
-router.put("/tasks/:id", deleteTask);
+router.put("/tasks/:id", updateTask);
 
-router.delete("/tasks/:id", updateTask);
+router.delete("/tasks/:id", deleteTask);
 
 export default router;
