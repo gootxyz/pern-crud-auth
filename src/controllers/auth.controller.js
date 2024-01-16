@@ -1,6 +1,7 @@
 import { pool } from "../db.js";
 import bcrypt from "bcrypt";
 import { createAccessToken } from "../libs/jwt.js";
+import md5 from "md5";
 
 // signin
 export const signin = async (req, res) => {
@@ -38,10 +39,11 @@ export const signup = async (req, res, next) => {
   try {
     // hashing a password
     const hashPassword = await bcrypt.hash(password, 10);
+    const gravatar = `https://www.gravatar.com/avatar/${md5(email)}`;
     //inserting a user
     const result = await pool.query(
-      "INSERT INTO users(name, email, password) VALUES($1, $2, $3) RETURNING *",
-      [name, email, hashPassword]
+      "INSERT INTO users(name, email, password, gravatar) VALUES($1, $2, $3, $4) RETURNING *",
+      [name, email, hashPassword, gravatar]
     );
     // creating a token for the user based on id, you can add more data to it
     const token = await createAccessToken({ id: result.rows[0].id });
