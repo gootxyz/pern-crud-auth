@@ -1,14 +1,38 @@
 import { pool } from "../db.js";
-import bcrypt from 'bcrypt';
+import bcrypt from "bcrypt";
 import { createAccessToken } from "../libs/jwt.js";
 
+// signin
+export const signin = async (req, res) => {
+  const { email, password } = req.body;
 
-export const signin = (req, res) => {
-  res.send("Signing in...");
+  const result = await pool.query("SELECT * FROM users WHERE email = $1", [
+    email,
+  ]);
+
+  if (result.rowCount === 0) {
+    return res.status(400).json({ message: "Email not regitered" });
+  }
+
+  //password is equal to result password
+  const validPassword = await bcrypt.compare(password, result.rows[0].password);
+  if (!validPassword) {
+    return res.status(400).json({ message: "Wrong password" });
+  }
+
+  const token = await createAccessToken({ id: result.rows[0].id });
+  // assigning the token to a cookie
+  res.cookie("token", token, {
+    httpOnly: true,
+    sameSite: "none",
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+  });
+
+  return res.json(result.rows[0]);
 };
 
 // signup
-export const signup = async (req, res) => {
+export const signup = async (req, res, next) => {
   const { name, email, password } = req.body;
 
   try {
@@ -19,24 +43,35 @@ export const signup = async (req, res) => {
       "INSERT INTO users(name, email, password) VALUES($1, $2, $3) RETURNING *",
       [name, email, hashPassword]
     );
-    // creating a token for the user
-    const token = await createAccessToken({id: result.rows[0].id})
+    // creating a token for the user based on id, you can add more data to it
+    const token = await createAccessToken({ id: result.rows[0].id });
 
-    return res.json({
-      token: token
+    // assigning the token to a cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
+    return res.json(result.rows[0]);
   } catch (error) {
     if (error.code === "23505") {
-      return res.status(400).json({message: "User is already registered"});
+      return res.status(400).json({ message: "User is already registered" });
     }
+    next(error);
   }
 };
 
+// signout
 export const signout = (req, res) => {
-  res.send("signing out...");
+  res.clearCookie("token");
+  res.sendStatus(200);
 };
 
-export const profile = (req, res) => {
-  res.send("profile of user...");
+// profile
+export const profile = async (req, res) => {
+  const result = await pool.query("SELECT * FROM users WHERE id = $1", [
+    req.userId,
+  ]);
+  return res.json(result.rows[0]);
 };

@@ -2,11 +2,14 @@ import express from "express";
 import morgan from "morgan";
 import tasksRoutes from "./routes/tasks.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import cookieParser from 'cookie-parser'
 
 const app = express();
 
 //MIDDLEWARES
 app.use(morgan("dev"));
+// to read cookies from req.headers
+app.use(cookieParser());
 //to use json
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
