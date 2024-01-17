@@ -50,7 +50,9 @@ export const signup = async (req, res, next) => {
 
     // assigning the token to a cookie
     res.cookie("token", token, {
-      httpOnly: true,
+      //httpOnly: true,
+      // to be visible in the console
+      secure: true,
       sameSite: "none",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });

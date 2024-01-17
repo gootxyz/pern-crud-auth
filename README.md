@@ -14,4 +14,6 @@ Complete full-stack application to allow different users to signup, login, logou
 2. [JWT](https://www.npmjs.com/package/jsonwebtoken) - token creation and storage to identify user sessions
 3. [Cookie-parser](https://www.npmjs.com/package/cookie-parser) - to transform the headers from a request into the cookie we want
 4. [Image upload](https://gravatar.com/) - gravatar api service with a [md5](https://www.npmjs.com/package/md5) encryption service
-
+5. Styling - [Tailwind](https://tailwindcss.com/)
+6. Forms - [React hook forms](https://react-hook-form.com/)
+7. Handling Requests - [Axios](https://www.npmjs.com/package/axios)

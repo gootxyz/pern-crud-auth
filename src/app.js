@@ -2,10 +2,19 @@ import express from "express";
 import morgan from "morgan";
 import tasksRoutes from "./routes/tasks.routes.js";
 import authRoutes from "./routes/auth.routes.js";
-import cookieParser from 'cookie-parser'
+import cookieParser from "cookie-parser";
+import cors from "cors";
 
 const app = express();
 
+// alow cors connection
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    // to allow cookies
+    credentials: true
+  })
+);
 //MIDDLEWARES
 app.use(morgan("dev"));
 // to read cookies from req.headers
@@ -17,9 +26,9 @@ app.use(express.urlencoded({ extended: false }));
 //ROUTES
 app.get("/", (req, res) => res.json({ message: "Welcome to my API" }));
 //adding auth routes
-app.use('/api', authRoutes);
+app.use("/api", authRoutes);
 //adding task routes
-app.use('/api', tasksRoutes);
+app.use("/api", tasksRoutes);
 
 //ERROR HANDLER
 app.use((err, req, res, next) => {
