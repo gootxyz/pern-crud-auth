@@ -12,7 +12,7 @@ export const signin = async (req, res) => {
   ]);
 
   if (result.rowCount === 0) {
-    return res.status(400).json({ message: "Email not regitered" });
+    return res.status(400).json({ message: "Email not registered" });
   }
 
   //password is equal to result password
@@ -24,7 +24,8 @@ export const signin = async (req, res) => {
   const token = await createAccessToken({ id: result.rows[0].id });
   // assigning the token to a cookie
   res.cookie("token", token, {
-    httpOnly: true,
+    //httpOnly: true, //on in prod
+    secure: true, //to allow cookies
     sameSite: "none",
     maxAge: 24 * 60 * 60 * 1000, // 1 day
   });
