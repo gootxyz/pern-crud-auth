@@ -17,3 +17,5 @@ Complete full-stack application to allow different users to signup, login, logou
 5. Styling - [Tailwind](https://tailwindcss.com/)
 6. Forms - [React hook forms](https://react-hook-form.com/)
 7. Handling Requests - [Axios](https://www.npmjs.com/package/axios)
+8. Context API - State management
+
