@@ -18,4 +18,4 @@ Complete full-stack application to allow different users to signup, login, logou
 6. Forms - [React hook forms](https://react-hook-form.com/)
 7. Handling Requests - [Axios](https://www.npmjs.com/package/axios)
 8. Context API - State management
-
+9. [Zod](https://www.npmjs.com/package/zod) - Schema validation
