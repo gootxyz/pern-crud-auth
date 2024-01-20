@@ -1,7 +1,8 @@
 import { Button, Card, Input, Label } from "../components/ui";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function RegisterPage() {
   const {
@@ -9,16 +10,13 @@ function RegisterPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const { signup } = useAuth();
+  const navigate = useNavigate()
 
   const onSubmit = handleSubmit(async (data) => {
-    const response = await axios.post(
-      "http://localhost:3000/api/signup",
-      data,
-      {
-        withCredentials: true,
-      }
-    );
-    console.log(response);
+    // signing up
+    await signup(data);
+    navigate('/profile')
   });
 
   return (
@@ -62,7 +60,9 @@ function RegisterPage() {
           <Button> Register</Button>
           <div className="flex flex-col justify-between my-4">
             <p>Already an account? </p>
-            <Link to="/login" className="font-bold italic underline">Login</Link>
+            <Link to="/login" className="font-bold italic underline">
+              Login
+            </Link>
           </div>
         </form>
       </Card>
