@@ -6,17 +6,26 @@ import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const { register, handleSubmit } = useForm();
-  const { signin } = useAuth();
+  const { signin, errors } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = handleSubmit(async (data) => {
-    await signin(data);
-    navigate("/profile");
+    const user = await signin(data);
+
+    if (user) {
+      navigate("/profile");
+    }
   });
 
   return (
     <div className="h-[calc(100vh-64px)] flex items-center justify-center">
       <Card>
+        {errors &&
+          errors.map((error) => (
+            <p key={error} className="text-red-500 text-center">
+              {error}
+            </p>
+          ))}
         <h1 className="text-4xl font-bold my-2 text-center">Sign In</h1>
 
         <form onSubmit={onSubmit}>
