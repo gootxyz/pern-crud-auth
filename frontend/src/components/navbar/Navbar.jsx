@@ -1,12 +1,10 @@
-import { Link, useLocation } from "react-router-dom";
-import { navigation } from "./navigation";
-import { useAuth } from "../../context/AuthContext";
+import { Link } from "react-router-dom";
+import { publicRoutes, privateRoutes } from "./navigation";
 import { Container } from "../ui";
+import { useAuth } from "../../context/AuthContext";
 
 function Navbar() {
-  const { pathname } = useLocation();
-  const { user } = useAuth();
-  console.log(user);
+  const { isAuth, signout } = useAuth();
 
   return (
     <nav className="bg-zinc-950 ">
@@ -16,16 +14,38 @@ function Navbar() {
         </Link>
 
         <ul className="flex gap-x-2">
-          {navigation.map((item) => (
-            <li
-              className={
-                pathname === item.path ? "bg-sky-800 px-3 py-1" : "py-1"
-              }
-              key={item.name}
-            >
-              <Link to={item.path}>{item.name}</Link>
-            </li>
-          ))}
+          {isAuth ? (
+            <>
+              {privateRoutes.map(({ path, name }) => (
+                <li
+                  className={`bg-sky-800 px-3 py-1 ${
+                    location.pathname == path && "bg-sky-500 px-3 py-1"
+                  }`}
+                  key={path}
+                >
+                  <Link to={path}>{name}</Link>
+                </li>
+              ))}
+              <li
+                onClick={() => {
+                  signout();
+                }}
+              >
+                Logout
+              </li>
+            </>
+          ) : (
+            publicRoutes.map(({ path, name }) => (
+              <li
+                className={`bg-sky-800 px-3 py-1 ${
+                  location.pathname == path && "bg-sky-500 px-3 py-1"
+                }`}
+                key={path}
+              >
+                <Link to={path}>{name}</Link>
+              </li>
+            ))
+          )}
         </ul>
       </Container>
     </nav>
