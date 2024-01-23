@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+//import {Container} from "../components/ui";
 
 function LoginPage() {
   const { register, handleSubmit } = useForm();
@@ -18,7 +19,7 @@ function LoginPage() {
   });
 
   return (
-    <div className="h-[calc(100vh-64px)] flex items-center justify-center">
+    <div className="h-[calc(100vh-10rem)] flex items-center justify-center">
       <Card>
         {errors &&
           errors.map((error) => (

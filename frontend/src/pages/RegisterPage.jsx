@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+//import {Container} from "../components/ui";
 
 function RegisterPage() {
   const {
@@ -23,7 +24,7 @@ function RegisterPage() {
   });
 
   return (
-    <div className="h-[calc(100vh-64px)] flex items-center justify-center">
+    <div className="h-[calc(100vh-10rem)] flex items-center justify-center">
       <Card>
       {signupErrors &&
           signupErrors.map((error) => (
