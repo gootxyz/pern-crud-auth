@@ -19,7 +19,7 @@ function Navbar() {
               {privateRoutes.map(({ path, name }) => (
                 <li
                   className={`bg-sky-800 px-3 py-1 ${
-                    location.pathname == path && "bg-sky-500 px-3 py-1"
+                    location.pathname == path && " px-3 py-1"
                   }`}
                   key={path}
                 >

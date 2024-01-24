@@ -14,7 +14,7 @@ import { useAuth } from "./context/AuthContext";
 
 function App() {
   const { isAuth } = useAuth();
-  console.log(isAuth);
+
   return (
     <>
       <Navbar />
