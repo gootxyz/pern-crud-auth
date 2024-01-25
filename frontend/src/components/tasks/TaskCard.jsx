@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import { Card, Button } from "../ui";
-import { deleteTaskRequest } from "../../api/tasksapi";
+import { useTasks } from "../../context/TaskContext";
 
 function TaskCard({ task }) {
+  const { deleteTask } = useTasks();
+
   return (
     <Card className="px-7 py-4">
       <div>
@@ -15,7 +17,7 @@ function TaskCard({ task }) {
             className="bg-red-500"
             onClick={async () => {
               if (window.confirm("Sure to delete the current task?")) {
-                await deleteTaskRequest(task.id)
+                deleteTask(task.id);
               }
             }}
           >
