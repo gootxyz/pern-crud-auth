@@ -55,10 +55,10 @@ export function AuthProvider({ children }) {
   };
 
   const signout = async () => {
-    await axios.post('/signout');
+    await axios.post("/signout");
     setIsAuth(false);
     setUser(null);
-  }
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -69,16 +69,25 @@ export function AuthProvider({ children }) {
         .then((res) => {
           setUser(res.data);
           setIsAuth(true);
-        setLoading(false);
         })
         .catch((err) => {
           console.log(err);
           setUser(null);
           setIsAuth(false);
-          setLoading(false);
         });
     }
+    setLoading(false);
   }, []);
+
+  useEffect(() => {
+
+    const clean = setTimeout(() => {
+      setErrors(null)
+    }, 2000) 
+
+    return () => clearTimeout(clean);
+
+  }, [errors])
 
   return (
     <AuthContext.Provider
@@ -88,8 +97,8 @@ export function AuthProvider({ children }) {
         errors,
         signup,
         signin,
-        signout, 
-        loading
+        signout,
+        loading,
       }}
     >
       {children}

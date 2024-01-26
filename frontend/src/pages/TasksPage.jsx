@@ -3,17 +3,23 @@ import TaskCard from "../components/tasks/TaskCard";
 import { useTasks } from "../context/TaskContext";
 
 function TasksPage() {
-
-  const {tasks, loadTasks} = useTasks();
-
+  const { tasks, loadTasks } = useTasks();
 
   useEffect(() => {
     loadTasks();
   }, []);
 
-  
+  if (tasks.length === 0)
+    return (
+      <div className="flex justify-center items-center h-[calc(100vh-10rem)]">
+        <h1 className="text-2xl font-bold">
+          Create your tasks to visualize them here... ฅ՞•ﻌ•՞ฅ
+        </h1>
+      </div>
+    );
+
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-2">
       {tasks.map((task) => (
         <TaskCard task={task} key={task.id} />
       ))}

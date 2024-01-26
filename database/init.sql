@@ -16,3 +16,5 @@ CREATE TABLE users (
 ALTER TABLE task ADD COLUMN user_id INTEGER REFERENCES users(id);
 
 ALTER TABLE users ADD COLUMN gravatar VARCHAR(255);
+
+ALTER TABLE task DROP CONSTRAINT task_title_key;

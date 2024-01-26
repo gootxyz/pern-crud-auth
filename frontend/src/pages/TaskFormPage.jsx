@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { useTasks } from "../context/TaskContext";
 
 function TaskFormPage() {
-  const { createTask, loadTask, errors: taskErrors } = useTasks();
+  const { createTask, loadTask, errors: taskErrors, updateTask } = useTasks();
 
   const {
     register,
@@ -17,17 +17,22 @@ function TaskFormPage() {
   const params = useParams();
 
   const onSubmit = handleSubmit(async (data) => {
-    await createTask(data);
+    let task;
+    if (!params.id) {
+      task = await createTask(data);
+    } else {
+      task = await updateTask(params.id, data)
+    }
     navigate("/tasks");
-  });
 
+  });
 
   useEffect(() => {
     if (params.id) {
-      loadTask(params.id).then(task => {
-        setValue('title', task.title)
-        setValue('description', task.description)
-      })
+      loadTask(params.id).then((task) => {
+        setValue("title", task.title);
+        setValue("description", task.description);
+      });
     }
   }, []);
 
@@ -64,7 +69,7 @@ function TaskFormPage() {
             {...register("description")}
           ></TextArea>
 
-          <Button>{params.id ? "Save" : "Create" }</Button>
+          <Button>{params.id ? "Save" : "Create"}</Button>
         </form>
       </Card>
     </div>
