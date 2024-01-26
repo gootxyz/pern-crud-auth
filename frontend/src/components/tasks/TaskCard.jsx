@@ -1,8 +1,11 @@
 /* eslint-disable react/prop-types */
 import { Card, Button } from "../ui";
 import { useTasks } from "../../context/TaskContext";
+import {useNavigate} from 'react-router-dom';
 
 function TaskCard({ task }) {
+
+  const navigate = useNavigate();
   const { deleteTask } = useTasks();
 
   return (
@@ -12,7 +15,10 @@ function TaskCard({ task }) {
         <p>{task.description}</p>
 
         <div className="my-2 flex justify-end gap-x-2">
-          <Button>Edit</Button>
+          <Button onClick={() => {
+            navigate(`/tasks/${task.id}/edit`)
+          }}>Edit</Button>
+
           <Button
             className="bg-red-500"
             onClick={async () => {

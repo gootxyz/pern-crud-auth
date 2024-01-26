@@ -1,34 +1,47 @@
 import { Card, Input, TextArea, Label, Button } from "../components/ui";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { useTasks } from "../context/TaskContext";
 
 function TaskFormPage() {
-  const { createTask } = useTasks();
+  const { createTask, loadTask, errors: taskErrors } = useTasks();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm();
   const navigate = useNavigate();
-  const [postError, setPostError] = useState([]);
+  const params = useParams();
 
   const onSubmit = handleSubmit(async (data) => {
     await createTask(data);
     navigate("/tasks");
   });
 
+
+  useEffect(() => {
+    if (params.id) {
+      loadTask(params.id).then(task => {
+        setValue('title', task.title)
+        setValue('description', task.description)
+      })
+    }
+  }, []);
+
   return (
     <div className="flex h-[80vh] justify-center items-center">
       <Card>
-        {postError.map((error, i) => (
+        {taskErrors.map((error, i) => (
           <p key={i} className="text-red-500">
             {error}
           </p>
         ))}
-        <h2 className="text-3xl font-bold my-4">Create a Task</h2>
+        <h2 className="text-3xl font-bold my-4">
+          {params.id ? "Edit" : "Create"} Task
+        </h2>
         <form onSubmit={onSubmit}>
           <Label htmlFor="title">Title</Label>
           <Input
@@ -51,7 +64,7 @@ function TaskFormPage() {
             {...register("description")}
           ></TextArea>
 
-          <Button>Create</Button>
+          <Button>{params.id ? "Save" : "Create" }</Button>
         </form>
       </Card>
     </div>

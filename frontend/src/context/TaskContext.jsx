@@ -4,6 +4,7 @@ import {
   getAllTasksRequest,
   deleteTaskRequest,
   createTaskRequest,
+  getTaskRequest,
 } from "../api/tasksapi";
 
 const TaskContext = createContext();
@@ -44,8 +45,15 @@ export const TaskProvider = ({ children }) => {
     }
   };
 
+  const loadTask = async (id) => {
+    const res = await getTaskRequest(id);
+    return res.data;
+  };
+
   return (
-    <TaskContext.Provider value={{ tasks, loadTasks, deleteTask, createTask }}>
+    <TaskContext.Provider
+      value={{ tasks, loadTasks, deleteTask, createTask, loadTask, errors }}
+    >
       {children}
     </TaskContext.Provider>
   );
