@@ -4,13 +4,14 @@ import tasksRoutes from "./routes/tasks.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { ORIGIN } from "./config.js";
 
 const app = express();
 
 // alow cors connection
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ORIGIN,
     // to allow cookies
     credentials: true
   })
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: false }));
 
 //ROUTES
 app.get("/", (req, res) => res.json({ message: "Welcome to my API" }));
+
 //adding auth routes
 app.use("/api", authRoutes);
 //adding task routes
